@@ -19,41 +19,78 @@
         }
 
         body {
-            /* Loads your tile image and repeats it smoothly */
             background-image: url('bg-tile3.png');
             background-repeat: repeat;
             background-position: top left;
             
-            /* Center elements viewport-wide */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             text-align: center;
-            padding: 20px;
+            padding: 20px; 
         }
 
         .container {
+            width: 100%;
             max-width: 600px;
         }
 
         h1 {
             font-family: 'Marcellus SC', serif;
-            font-size: 28pt;
+            /* clamp() smoothly scales text between 2rem on mobile and 3.5rem on large screens */
+            font-size: clamp(2rem, 6vw, 3.5rem); 
             font-weight: 400;
             color: #222222;
             letter-spacing: 0.05em;
             margin-bottom: 12px;
             line-height: 1.3;
+            
+            /* Start invisible, then run the fadeIn animation */
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
         }
 
         p {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 12pt;
+            font-size: clamp(1rem, 3vw, 1.25rem);
             font-weight: 400;
             color: #666666;
             letter-spacing: 0.03em;
-            text-transform: lowercase; /* Optional adjustment for a minimal layout look */
+            text-transform: lowercase;
+            
+            /* inline-block is required so the typing animation hugs the text edges perfectly */
+            display: inline-block; 
+            
+            /* Start invisible. Wait 2s, then run the typeReveal animation over 1.5s */
+            opacity: 0;
+            animation: typeReveal 1.5s steps(23, end) 2s forwards;
+        }
+
+        /* --- Animations --- */
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); /* Adds a subtle upward float as it fades in */
+            } 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes typeReveal {
+            0% { 
+                /* Hide text by clipping 100% of it from the right */
+                clip-path: inset(0 100% 0 0); 
+                opacity: 1; 
+            }
+            100% { 
+                /* Reveal text entirely */
+                clip-path: inset(0 0 0 0); 
+                opacity: 1; 
+            }
         }
     </style>
 </head>
